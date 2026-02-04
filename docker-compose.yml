@@ -21,6 +21,22 @@ services:
     networks:
       - subtrack-network
 
+  cli:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: subtrack-cli
+    env_file:
+      - .env
+    volumes:
+      - subtrack-data:/data
+    environment:
+      - DB_PATH=/data/subtrack.db
+    networks:
+      - subtrack-network
+    profiles:
+      - cli
+
 volumes:
   subtrack-data:
     driver: local
