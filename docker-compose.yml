@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  subtrack:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: subtrack-service
+    restart: unless-stopped
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    env_file:
+      - .env
+    volumes:
+      - subtrack-data:/data
+    environment:
+      - DB_PATH=/data/subtrack.db
+    networks:
+      - subtrack-network
+
+volumes:
+  subtrack-data:
+    driver: local
+
+networks:
+  subtrack-network:
+    driver: bridge
