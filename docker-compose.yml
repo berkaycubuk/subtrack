@@ -26,6 +26,7 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: subtrack-cli
+    entrypoint: ["/root/subtrack-cli"]
     env_file:
       - .env
     volumes:
