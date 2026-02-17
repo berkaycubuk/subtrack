@@ -11,6 +11,9 @@ type Config struct {
 	TelegramBotToken string
 	TelegramChatID   string
 	DBPath           string
+	WebUsername       string
+	WebPassword      string
+	WebPort          string
 }
 
 func Load() (*Config, error) {
@@ -35,9 +38,27 @@ func Load() (*Config, error) {
 		dbPath = "subtrack.db"
 	}
 
+	webUsername := os.Getenv("WEB_USERNAME")
+	if webUsername == "" {
+		return nil, fmt.Errorf("WEB_USERNAME is required")
+	}
+
+	webPassword := os.Getenv("WEB_PASSWORD")
+	if webPassword == "" {
+		return nil, fmt.Errorf("WEB_PASSWORD is required")
+	}
+
+	webPort := os.Getenv("WEB_PORT")
+	if webPort == "" {
+		webPort = "8080"
+	}
+
 	return &Config{
 		TelegramBotToken: botToken,
 		TelegramChatID:   chatID,
 		DBPath:           dbPath,
+		WebUsername:       webUsername,
+		WebPassword:      webPassword,
+		WebPort:          webPort,
 	}, nil
 }

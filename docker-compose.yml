@@ -18,6 +18,8 @@ services:
       - subtrack-data:/data
     environment:
       - DB_PATH=/data/subtrack.db
+    ports:
+      - "${WEB_PORT:-8080}:${WEB_PORT:-8080}"
     networks:
       - subtrack-network
 

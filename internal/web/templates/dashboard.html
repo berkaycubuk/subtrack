@@ -1,0 +1,52 @@
+{{define "content"}}
+<div class="navbar">
+    <a href="/" class="brand">SubTrack</a>
+    <div class="nav-links">
+        <a href="/">Dashboard</a>
+        <a href="/add">Add</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+<div class="container">
+    <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+            <h1 style="margin-bottom: 0;">Subscriptions</h1>
+            <a href="/add" class="btn btn-primary">Add New</a>
+        </div>
+        {{if .Data}}
+        <table>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Cycle</th>
+                    <th>Next Payment</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{range .Data}}
+                <tr>
+                    <td>{{.Name}}</td>
+                    <td>{{formatPrice .Price .Currency}}</td>
+                    <td>{{.Cycle}}</td>
+                    <td>{{formatDate .PaymentDate}}</td>
+                    <td>
+                        <div class="actions">
+                            <a href="/edit/{{.ID}}" class="btn btn-secondary">Edit</a>
+                            <a href="/delete/{{.ID}}" class="btn btn-danger">Delete</a>
+                        </div>
+                    </td>
+                </tr>
+                {{end}}
+            </tbody>
+        </table>
+        {{else}}
+        <div class="empty-state">
+            <p>No subscriptions yet.</p>
+            <p style="margin-top: 0.5rem;"><a href="/add">Add your first subscription</a></p>
+        </div>
+        {{end}}
+    </div>
+</div>
+{{end}}

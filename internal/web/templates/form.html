@@ -1,0 +1,68 @@
+{{define "content"}}
+<div class="navbar">
+    <a href="/" class="brand">SubTrack</a>
+    <div class="nav-links">
+        <a href="/">Dashboard</a>
+        <a href="/add">Add</a>
+        <a href="/logout">Logout</a>
+    </div>
+</div>
+<div class="container">
+    <div class="card">
+        <h1>{{.Title}}</h1>
+        {{if .Error}}<div class="error">{{.Error}}</div>{{end}}
+        {{$d := .Data}}
+        {{$isEdit := false}}
+        {{$action := "/add"}}
+        {{$id := ""}}
+        {{$name := ""}}
+        {{$price := ""}}
+        {{$currency := ""}}
+        {{$cycle := ""}}
+        {{$paymentDate := ""}}
+        {{if $d}}
+            {{with $m := $d}}
+                {{$name = index $m "Name"}}
+                {{$price = index $m "Price"}}
+                {{$currency = index $m "Currency"}}
+                {{$cycle = index $m "Cycle"}}
+                {{$paymentDate = index $m "PaymentDate"}}
+                {{$id = index $m "ID"}}
+            {{end}}
+        {{end}}
+        {{if $id}}
+            {{$isEdit = true}}
+            {{$action = printf "/edit/%s" $id}}
+        {{end}}
+        <form method="POST" action="{{$action}}">
+            <div class="form-group">
+                <label for="name">Name</label>
+                <input type="text" id="name" name="name" value="{{$name}}" required>
+            </div>
+            <div class="form-group">
+                <label for="price">Price</label>
+                <input type="text" id="price" name="price" value="{{$price}}" required placeholder="9.99">
+            </div>
+            <div class="form-group">
+                <label for="currency">Currency</label>
+                <input type="text" id="currency" name="currency" value="{{$currency}}" required placeholder="USD">
+            </div>
+            <div class="form-group">
+                <label for="cycle">Cycle</label>
+                <select id="cycle" name="cycle" required>
+                    <option value="monthly" {{if eq $cycle "monthly"}}selected{{end}}>Monthly</option>
+                    <option value="yearly" {{if eq $cycle "yearly"}}selected{{end}}>Yearly</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="payment_date">Payment Date (DD-MM-YYYY)</label>
+                <input type="text" id="payment_date" name="payment_date" value="{{$paymentDate}}" required placeholder="01-01-2025">
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+                <button type="submit" class="btn btn-primary">{{if $isEdit}}Update{{else}}Add{{end}} Subscription</button>
+                <a href="/" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{{end}}

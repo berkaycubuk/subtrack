@@ -48,6 +48,18 @@ func (s *Scheduler) Start() error {
 	return nil
 }
 
+func (s *Scheduler) StartCron() error {
+	log.Println("Starting SubTrack scheduler...")
+
+	if _, err := s.cron.AddFunc("0 0 9,21 * * *", s.runCheck); err != nil {
+		return err
+	}
+
+	s.cron.Start()
+	log.Println("Scheduler started (runs at 9:00 AM and 9:00 PM)")
+	return nil
+}
+
 func (s *Scheduler) Stop() {
 	log.Println("Stopping scheduler...")
 	s.cron.Stop()

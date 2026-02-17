@@ -91,6 +91,10 @@ func (s *SubscriptionService) UpdateSubscription(id uint, name, priceStr, curren
 	return s.db.UpdateSubscription(sub)
 }
 
+func (s *SubscriptionService) GetSubscription(id uint) (*database.Subscription, error) {
+	return s.db.GetSubscriptionByID(id)
+}
+
 func (s *SubscriptionService) DeleteSubscription(id uint) error {
 	return s.db.DeleteSubscription(id)
 }
